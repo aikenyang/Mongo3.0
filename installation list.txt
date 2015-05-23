@@ -1,0 +1,21 @@
+1. change OS ulimit, /etc/security/limits.conf
+
+2. change OS 90 nproc, /etc/security/limits.d/90-nproc.conf
+
+3. change OS 85 rule, /etc/udev/rules.d/85-ebs.rules
+
+3. change OS rc.local, /etc/rc.local
+
+4. Change OS sysctl, /etc/sysctl
+
+*. Change OS repository, /etc/yum.repos.d/10gen.repo
+
+5. download Mongo3.0 RPM
+
+6. install Mongo3.0 RPM
+
+7. replace/modify /etc/mongod.conf
+
+8. in mongo shell, config replica set
+
+9. in mongo shell, create accounts
