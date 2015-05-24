@@ -4,18 +4,36 @@
 
 3. change OS 85 rule, /etc/udev/rules.d/85-ebs.rules
 
-3. change OS rc.local, /etc/rc.local
+4. change OS rc.local, /etc/rc.local
 
-4. Change OS sysctl, /etc/sysctl
+5. Change OS sysctl, /etc/sysctl
 
-*. Change OS repository, /etc/yum.repos.d/10gen.repo
+6. Change OS repository, /etc/yum.repos.d/mongodb-org-3.0.repo
 
-5. download Mongo3.0 RPM
+---fow aws
 
-6. install Mongo3.0 RPM
+10. download Mongo3.0 RPM
+http://repo.mongodb.org/yum/redhat/6Server/mongodb-org/stable/x86_64/RPMS/
 
-7. replace/modify /etc/mongod.conf
+http://repo.mongodb.org/yum/redhat/6Server/mongodb-org/stable/x86_64/RPMS/mongodb-org-mongos-3.0.3-1.el6.x86_64.rpm
+http://repo.mongodb.org/yum/redhat/6Server/mongodb-org/stable/x86_64/RPMS/mongodb-org-server-3.0.3-1.el6.x86_64.rpm
+http://repo.mongodb.org/yum/redhat/6Server/mongodb-org/stable/x86_64/RPMS/mongodb-org-shell-3.0.3-1.el6.x86_64.rpm
+http://repo.mongodb.org/yum/redhat/6Server/mongodb-org/stable/x86_64/RPMS/mongodb-org-tools-3.0.3-1.el6.x86_64.rpm
 
-8. in mongo shell, config replica set
+----------------------for AWS
+http://repo.mongodb.org/yum/amazon/2013.03/mongodb-org/3.0/x86_64/RPMS/
 
-9. in mongo shell, create accounts
+http://repo.mongodb.org/yum/amazon/2013.03/mongodb-org/3.0/x86_64/RPMS/mongodb-org-3.0.3-1.amzn1.x86_64.rpm
+http://repo.mongodb.org/yum/amazon/2013.03/mongodb-org/3.0/x86_64/RPMS/mongodb-org-mongos-3.0.3-1.amzn1.x86_64.rpm
+http://repo.mongodb.org/yum/amazon/2013.03/mongodb-org/3.0/x86_64/RPMS/mongodb-org-server-3.0.3-1.amzn1.x86_64.rpm
+http://repo.mongodb.org/yum/amazon/2013.03/mongodb-org/3.0/x86_64/RPMS/mongodb-org-shell-3.0.3-1.amzn1.x86_64.rpm
+http://repo.mongodb.org/yum/amazon/2013.03/mongodb-org/3.0/x86_64/RPMS/mongodb-org-tools-3.0.3-1.amzn1.x86_64.rpm
+
+11. install Mongo3.0 RPM
+rpm -ivh
+
+21. replace/modify /etc/mongod.conf
+
+22. in mongo shell, config replica set
+
+23. in mongo shell, create accounts
