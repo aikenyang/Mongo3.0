@@ -1,39 +1,74 @@
+0. preparation, get the config files form github/S3/shared folder
+example:
+git clone https://github.com/aikenyang/Mongo3.0.git
+
 1. change OS ulimit, /etc/security/limits.conf
+#verify, ulimit -a
+\cp -f limits.conf /etc/security/limits.conf
 
 2. change OS 90 nproc, /etc/security/limits.d/90-nproc.conf
+\cp -f 90-nproc.conf /etc/security/limits.d/90-nproc.conf
 
 3. change OS 85 rule, /etc/udev/rules.d/85-ebs.rules
+#verify, sudo blockdev --getra /dev/sdb
+\cp -f 85-ebs.rules /etc/udev/rules.d/85-ebs.rules
 
-4. change OS rc.local, /etc/rc.local
+4. change OS rc.local, /etc/rc.local , in order to Disable Transparent Huge Pages (THP)
+#append the change to original uaing tee -a
+#verify command:
+#cat /sys/kernel/mm/transparent_hugepage/enabled
+#or
+#cat /sys/kernel/mm/redhat_transparent_hugepage/enabled
+cat rc.local | tee -a /etc/rc.local
 
-5. Change OS sysctl, /etc/sysctl
+5. Change OS sysctl, /etc/sysctl.confca
+#diff -u -B <(grep -vE '^\s*(#|$)' /etc/sysctl.conf)  <(grep -vE '^\s*(#|$)' sysctl.conf)
+\cp -f sysctl.conf /etc/sysctl.conf
 
 6. Change OS repository, /etc/yum.repos.d/mongodb-org-3.0.repo
+\cp -f mongodb-org-3.0.repo /etc/yum.repos.d/mongodb-org-3.0.repo
 
 ---fow aws
 
 10. download Mongo3.0 RPM
 http://repo.mongodb.org/yum/redhat/6Server/mongodb-org/stable/x86_64/RPMS/
 
-http://repo.mongodb.org/yum/redhat/6Server/mongodb-org/stable/x86_64/RPMS/mongodb-org-mongos-3.0.3-1.el6.x86_64.rpm
-http://repo.mongodb.org/yum/redhat/6Server/mongodb-org/stable/x86_64/RPMS/mongodb-org-server-3.0.3-1.el6.x86_64.rpm
-http://repo.mongodb.org/yum/redhat/6Server/mongodb-org/stable/x86_64/RPMS/mongodb-org-shell-3.0.3-1.el6.x86_64.rpm
-http://repo.mongodb.org/yum/redhat/6Server/mongodb-org/stable/x86_64/RPMS/mongodb-org-tools-3.0.3-1.el6.x86_64.rpm
+wget http://repo.mongodb.org/yum/redhat/6Server/mongodb-org/stable/x86_64/RPMS/mongodb-org-3.0.3-1.el6.x86_64.rpm
+wget http://repo.mongodb.org/yum/redhat/6Server/mongodb-org/stable/x86_64/RPMS/mongodb-org-mongos-3.0.3-1.el6.x86_64.rpm
+wget http://repo.mongodb.org/yum/redhat/6Server/mongodb-org/stable/x86_64/RPMS/mongodb-org-server-3.0.3-1.el6.x86_64.rpm
+wget http://repo.mongodb.org/yum/redhat/6Server/mongodb-org/stable/x86_64/RPMS/mongodb-org-shell-3.0.3-1.el6.x86_64.rpm
+wget http://repo.mongodb.org/yum/redhat/6Server/mongodb-org/stable/x86_64/RPMS/mongodb-org-tools-3.0.3-1.el6.x86_64.rpm
 
 ----------------------for AWS
 http://repo.mongodb.org/yum/amazon/2013.03/mongodb-org/3.0/x86_64/RPMS/
 
-http://repo.mongodb.org/yum/amazon/2013.03/mongodb-org/3.0/x86_64/RPMS/mongodb-org-3.0.3-1.amzn1.x86_64.rpm
-http://repo.mongodb.org/yum/amazon/2013.03/mongodb-org/3.0/x86_64/RPMS/mongodb-org-mongos-3.0.3-1.amzn1.x86_64.rpm
-http://repo.mongodb.org/yum/amazon/2013.03/mongodb-org/3.0/x86_64/RPMS/mongodb-org-server-3.0.3-1.amzn1.x86_64.rpm
-http://repo.mongodb.org/yum/amazon/2013.03/mongodb-org/3.0/x86_64/RPMS/mongodb-org-shell-3.0.3-1.amzn1.x86_64.rpm
-http://repo.mongodb.org/yum/amazon/2013.03/mongodb-org/3.0/x86_64/RPMS/mongodb-org-tools-3.0.3-1.amzn1.x86_64.rpm
+wget http://repo.mongodb.org/yum/amazon/2013.03/mongodb-org/3.0/x86_64/RPMS/mongodb-org-3.0.3-1.amzn1.x86_64.rpm
+wget http://repo.mongodb.org/yum/amazon/2013.03/mongodb-org/3.0/x86_64/RPMS/mongodb-org-mongos-3.0.3-1.amzn1.x86_64.rpm
+wget http://repo.mongodb.org/yum/amazon/2013.03/mongodb-org/3.0/x86_64/RPMS/mongodb-org-server-3.0.3-1.amzn1.x86_64.rpm
+wget http://repo.mongodb.org/yum/amazon/2013.03/mongodb-org/3.0/x86_64/RPMS/mongodb-org-shell-3.0.3-1.amzn1.x86_64.rpm
+wget http://repo.mongodb.org/yum/amazon/2013.03/mongodb-org/3.0/x86_64/RPMS/mongodb-org-tools-3.0.3-1.amzn1.x86_64.rpm
 
 11. install Mongo3.0 RPM
-rpm -ivh
+rpm -ivh mongodb-org-server-3.0.3-1.el6.x86_64.rpm
+rpm -ivh mongodb-org-mongos-3.0.3-1.el6.x86_64.rpm
+rpm -ivh mongodb-org-shell-3.0.3-1.el6.x86_64.rpm
+rpm -ivh mongodb-org-tools-3.0.3-1.el6.x86_64.rpm
+rpm -ivh mongodb-org-3.0.3-1.el6.x86_64.rpm
 
-21. replace/modify /etc/mongod.conf
+20. replace/modify /etc/mongod.conf
+\cp -f mongod.conf /etc/mongod.conf
 
-22. in mongo shell, config replica set
+21. keyfile
+#/data/keyfile
 
-23. in mongo shell, create accounts
+22. folder owner
+chown -R mongod:mongod /data
+
+22. start mongod service
+sudo service mongod start
+#or
+#sudo mongod /usr/bin/mongod -f /etc/mongod.conf
+
+23. in mongo shell, config replica set
+
+24. in mongo shell, create accounts
