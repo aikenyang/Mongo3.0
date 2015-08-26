@@ -11,7 +11,7 @@ sudo \cp -f limits.conf /etc/security/limits.conf
 sudo \cp -f 90-nproc.conf /etc/security/limits.d/90-nproc.conf
 
 3. change OS 85 rule, /etc/udev/rules.d/85-ebs.rules
-#verify, sudo blockdev --getra /dev/sdb
+#verify, sudo blockdev --report, sudo blockdev --getra /dev/sdb
 sudo \cp -f 85-ebs.rules /etc/udev/rules.d/85-ebs.rules
 
 4. disable Transparent_Huge_Pages (THP)
