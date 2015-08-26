@@ -14,13 +14,13 @@ sudo \cp -f 90-nproc.conf /etc/security/limits.d/90-nproc.conf
 #verify, sudo blockdev --getra /dev/sdb
 sudo \cp -f 85-ebs.rules /etc/udev/rules.d/85-ebs.rules
 
-4. change OS rc.local, /etc/rc.local , in order to Disable Transparent Huge Pages (THP)
-#append the change to original uaing tee -a
-#verify command:
-#sudo cat /sys/kernel/mm/transparent_hugepage/enabled
-#or
-#sudo cat /sys/kernel/mm/redhat_transparent_hugepage/enabled
-sudo cat rc.local | tee -a /etc/rc.local
+4. disable Transparent_Huge_Pages (THP)
+4.1 Create the init.d script.
+sudo \cp -f disable-transparent-hugepages /etc/init.d/disable-transparent-hugepages
+4.2 Make it executable.
+sudo chmod 755 /etc/init.d/disable-transparent-hugepages
+4.3 Configure your operating system to run it on boot.
+sudo chkconfig --add disable-transparent-hugepages
 
 5. Change OS sysctl, /etc/sysctl.confca
 #diff -u -B <(grep -vE '^\s*(#|$)' /etc/sysctl.conf)  <(grep -vE '^\s*(#|$)' sysctl.conf)
